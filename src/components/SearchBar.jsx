@@ -7,6 +7,7 @@ function SearchBar({ onSearch }) {
             onSearch(e.target.city.value);
         }}>
             <input type="text" name="city"/>
+            <button type="submit">Search</button>
         </form>
     )
 }

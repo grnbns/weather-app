@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 const BASE = 'https://api.openweathermap.org/data/2.5';
 const KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
-export function useWeather(city) {
+export default function useWeather(city) {
     const [current, setCurrent] = useState(null);
     const [forecast, setForecast] = useState(null);
     const [loading, setLoading] = useState(false);

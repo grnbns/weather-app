@@ -1,15 +1,15 @@
 
 
-function WeatherCard({ cityName, temperature, condition, humidity, windSpeed, weatherIcon }) {
+function WeatherCard({ current }) {
     return (
         <div>
-            <div>{cityName}</div>
-            <div>{temperature}</div>
-            <div>{condition}</div>
-            <div>{humidity}</div>
-            <div>{windSpeed}</div>
+            <div>{current.name}</div>
+            <div>{current.main.temp}</div>
+            <div>{current.weather[0].description}</div>
+            <div>{current.wind.speed}</div>
+            <div>{current.weather[0].icon}</div>
             <div>
-                <img src={weatherIcon} alt="weather icon" />
+                <img src={`https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`} alt="weather icon" />
             </div>
         </div>
     )
