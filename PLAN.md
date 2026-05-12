@@ -118,3 +118,150 @@ Show an error message when `error` is set (e.g. city not found).
 ```
 
 Each step can be reviewed as its own commit.
+
+---
+
+## Phase 2 — Sidebar & Animated Backgrounds
+
+---
+
+### Step 8 — Layout Restructure
+
+The current layout is a single centered column. It needs to become a side-by-side flex row:
+
+```
+┌──────────┬────────────────────────────┐
+│          │                            │
+│ Sidebar  │     Main content           │
+│ (closed) │     (WeatherCard +         │
+│          │      ForecastList)         │
+└──────────┴────────────────────────────┘
+```
+
+Changes to `App.jsx`:
+- Add `sidebarOpen` boolean state (default `false`)
+- Add `savedCities` state (loaded from localStorage on mount)
+- Top-level layout becomes `display: flex; flex-direction: row`
+- A hamburger/menu button in the top-left toggles the sidebar
+- Main content area takes up remaining width with `flex: 1`
+
+---
+
+### Step 9 — `useSavedCities` Hook
+
+New file: `src/hooks/useSavedCities.js`
+
+Manages the saved cities list with localStorage sync:
+- Initialises from `localStorage.getItem('savedCities')` on mount
+- Returns `{ savedCities, addCity, removeCity }`
+- `addCity(city)` — adds to list if not already saved, persists to localStorage
+- `removeCity(city)` — removes by name, persists to localStorage
+- Adding a city also triggers a lightweight fetch for its current conditions (name, temp, condition) so the preview card has data immediately
+
+---
+
+### Step 10 — `Sidebar` Component
+
+New file: `src/components/Sidebar.jsx`
+
+Props: `{ isOpen, onClose, savedCities, onSelectCity, onRemoveCity, onSearch }`
+
+Renders:
+- Frosted glass panel (`backdrop-filter: blur`) that slides in from the left
+- SearchBar at the top (moved here from main view)
+- List of `CityCard` components below
+- When a city is searched, it gets added to `savedCities` via `addCity`
+
+CSS: translucent dark background (`rgba` + `backdrop-filter: blur(20px)`), fixed width (e.g. `280px`), slides in with a CSS `transform: translateX` transition.
+
+---
+
+### Step 11 — `CityCard` Component
+
+New file: `src/components/CityCard.jsx`
+
+Props: `{ cityData, onSelect, onRemove }`
+
+Layout — 2×2 grid inside a card:
+
+```
+┌─────────────────────────┐
+│ City Name       18°     │
+│                         │
+│ Partly Cloudy           │
+└─────────────────────────┘
+```
+
+- Top-left: city name
+- Top-right: current temperature
+- Bottom-left: condition description
+- Bottom-right: placeholder for high/low (omitted for now — API limitation)
+- X button (absolute top-right corner) calls `onRemove`
+- Clicking the card (not the X) calls `onSelect(cityName)`
+
+---
+
+### Step 12 — Animated Video Background
+
+New file: `src/components/VideoBackground.jsx`
+
+Maps OpenWeatherMap condition codes to a looping `<video>` element:
+
+| Condition group | Video file |
+|---|---|
+| Clear day | `clear-day.mp4` |
+| Clear night | `clear-night.mp4` |
+| Clouds | `cloudy.mp4` |
+| Rain / Drizzle | `rain.mp4` |
+| Thunderstorm | `storm.mp4` |
+| Snow | `snow.mp4` |
+| Mist / Fog | `fog.mp4` |
+
+**Video sourcing** — you need to supply the `.mp4` files. Good free sources:
+- [Mixkit](https://mixkit.co/free-stock-video/weather/) — free, no attribution required
+- [Pexels](https://www.pexels.com/search/videos/weather/) — free with attribution
+
+Place files in `public/videos/`. The component reads `current.weather[0].id` (the OWM condition code) and swaps the video `src` accordingly. Use `key={videoSrc}` on the `<video>` element so React remounts it when the source changes, triggering a reload.
+
+CSS: `position: fixed; inset: 0; z-index: -1; object-fit: cover` — sits behind everything.
+
+---
+
+### New Files Summary
+
+```
+src/
+  components/
+    Sidebar.jsx
+    CityCard.jsx
+    VideoBackground.jsx
+  hooks/
+    useSavedCities.js
+  styles/
+    Sidebar.css
+    CityCard.css
+    VideoBackground.css
+public/
+  videos/
+    clear-day.mp4
+    clear-night.mp4
+    cloudy.mp4
+    rain.mp4
+    storm.mp4
+    snow.mp4
+    fog.mp4
+```
+
+---
+
+### Phase 2 Sequence
+
+```
+8.  Restructure App.jsx layout (sidebar toggle + flex row)
+9.  Build useSavedCities hook
+10. Build Sidebar component + CSS
+11. Build CityCard component + CSS
+12. Source video files → public/videos/
+13. Build VideoBackground component + CSS
+14. Wire everything together in App.jsx
+```

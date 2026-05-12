@@ -1,13 +1,13 @@
-
+import '../styles/SearchBar.css';
 
 function SearchBar({ onSearch }) {
     return (
-        <form onSubmit={(e) => {
+        <form className="search-bar" onSubmit={(e) => {
             e.preventDefault();
             onSearch(e.target.city.value);
         }}>
             <input type="text" name="city"/>
-            <button type="submit">Search</button>
+            <button className="search-button" type="submit">Search</button>
         </form>
     )
 }
