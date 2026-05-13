@@ -19,7 +19,7 @@ function VideoBackground({ weatherId, icon, className, fade }) {
     const isFirstRender = useRef(true);
 
     useEffect(() => {
-        const src = `/videos/${video}.mp4`;
+        const src = `${import.meta.env.BASE_URL}videos/${video}.mp4`;
 
         if (isFirstRender.current || !fade) {
             isFirstRender.current = false;
