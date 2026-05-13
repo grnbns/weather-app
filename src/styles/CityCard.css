@@ -1,0 +1,55 @@
+.city-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 250px;
+    height: 80px;
+    background-color: rgb(126, 188, 255);
+    border-radius: 16px;
+    padding: 10px;
+    padding-left: 13px;
+    cursor: pointer;
+}
+
+.city-card-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.city-card-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.city-card-left .city-card-top {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.city-card-left .city-card-bottom {
+    font-size: 0.7rem;
+}
+
+.city-card-right .city-card-top {
+    font-size: 2rem;
+    font-weight: normal;
+}
+
+.del-city-card-btn {
+    width: 10px;
+    height: 10px;
+    position: relative;
+    top: -5px;
+    left: 40px;
+    background: none;
+    border: none;
+    color: white;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.del-city-card-btn:hover {
+    opacity: 1;
+}

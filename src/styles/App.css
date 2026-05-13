@@ -1,6 +1,41 @@
 #root {
-    max-width: 430px;
-    margin: 0 auto;
-    padding: 20px;
+    padding: 0px;
     min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.app {
+    width: 100%;
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    width: 40px;
+    height: 40px;
+    font-size: 60px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.weather-display {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+.weather-info {
+    max-width: 500px;
 }
