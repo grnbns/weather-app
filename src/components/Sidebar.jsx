@@ -7,8 +7,16 @@ function SideBar({ isOpen, onClose, savedCities, onSelectCity, onRemoveCity, onS
     return (
         <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
             <SearchBar onSearch={onSearch}/>
-            <CityCard
-            />
+            {
+                savedCities.map(city => (
+                    <CityCard 
+                        key={city.cityName}
+                        onSelect={() => onSelectCity(city.cityName)}
+                        onRemove={() => onRemoveCity(city)}
+                        cityData={city}
+                    />
+                ))
+            }
         </div>
     )
 }
